@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BCT Apps - Business Control Team</title>
+  
+  <meta name="theme-color" content="#0056b3">
+  <link rel="manifest" href="manifest.json">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background-color: #f4f6f9; 
+      color: #333; 
+      min-height: 100vh; 
+      overflow-x: hidden; 
+    }
+    
+    /* Header Korporat: Biru & Kuning */
+    .header { 
+      background: #004b87; 
+      padding: 1.2rem; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      border-bottom: 5px solid #ffc107; 
+      position: sticky; 
+      top: 0; 
+      z-index: 10; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header h1 { 
+      font-size: 1.4rem; 
+      color: white; 
+      cursor: pointer; 
+      font-weight: 700;
+      letter-spacing: 0.5px; 
+      text-align: center; 
+      text-transform: uppercase;
+    }
+    .header h1 span {
+      color: #ffc107;
+    }
+
+    .container { padding: 2rem 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+    
+    .nav-top { display: none; margin-bottom: 2rem; align-items: center; gap: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; }
+    .btn-back { 
+      background: #ffffff; 
+      color: #004b87;
+      border: 1px solid #004b87; 
+      padding: 0.5rem 1rem; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem; 
+      transition: all 0.2s; 
+    }
+    .btn-back:hover { background: #004b87; color: white; }
+    .page-title { font-size: 1.2rem; font-weight: 600; color: #1e293b; }
+    
+    /* Tampilan Grid Thumbnail Modern */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+    .card { 
+      background: #fff; 
+      border-radius: 12px; 
+      padding: 2rem 1rem; 
+      text-align: center; 
+      cursor: pointer; 
+      border: 1px solid #e2e8f0; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+      transition: transform 0.2s, box-shadow 0.2s; 
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: #004b87;
+    }
+    .card:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
+    }
+    .card i { font-size: 2.5rem; color: #004b87; margin-bottom: 1rem; }
+    .card h2 { font-size: 0.95rem; font-weight: 600; line-height: 1.4; color: #334155; text-transform: capitalize; }
+    
+    /* Modals Clean Design */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; backdrop-filter: blur(4px); }
+    .modal-content { background: #ffffff; padding: 2rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    
+    .close-btn { 
+      position: absolute; top: 15px; right: 15px; 
+      background: #f8fafc; color: #64748b; 
+      border: 1px solid #cbd5e1; border-radius: 50%; 
+      width: 32px; height: 32px; font-size: 1rem; 
+      display: flex; justify-content: center; align-items: center; 
+      cursor: pointer; transition: all 0.2s; 
+    }
+    .close-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
+    
+    .sub-menu-btn { 
+      display: flex; align-items: center; padding: 1.2rem; 
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; 
+      margin-bottom: 1rem; cursor: pointer; color: #334155; 
+      transition: all 0.2s; text-align: left; 
+    }
+    .sub-menu-btn:hover { background: #004b87; color: white; border-color: #004b87; transform: translateX(5px); }
+    .sub-menu-btn:hover i { color: #ffc107; }
+    .sub-menu-btn i { font-size: 1.5rem; margin-right: 1.2rem; color: #64748b; transition: all 0.2s; }
+    .sub-menu-btn div { font-size: 0.95rem; line-height: 1.3; }
+    
+    /* Iframe Modal Khusus */
+    #iframeModal { padding: 0; } 
+    #iframeModal .modal-content { 
+      width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; 
+      padding: 0; border-radius: 0; display: flex; flex-direction: column; background: #f4f6f9;
+    } 
+    
+    .iframe-header {
+      background: #ffffff;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    .iframe-actions { display: flex; align-items: center; gap: 15px; }
+    .btn-new-tab {
+      background: #ffc107; color: #000; text-decoration: none;
+      padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;
+      display: flex; align-items: center; gap: 6px; transition: 0.2s;
+    }
+    .btn-new-tab:hover { background: #e0a800; }
+    
+    #iframeModal .close-btn { position: static; width: auto; height: auto; padding: 6px 12px; border-radius: 6px; background: #ef4444; color: white; border: none; font-weight: 500; font-size: 0.85rem;}
+    
+    iframe { width: 100%; flex-grow: 1; border: none; display: block; background: #fff;}
+    
+    .loading-box { text-align: center; padding: 3rem; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b; }
+    .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.1rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
+    .sub-jenis { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; opacity: 0.8;}
+    .sub-judul { font-weight: 600; font-size: 1rem; margin-top: 4px; display: block;}
+    
+    @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; } .card i { font-size: 3rem; } }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1 onclick="tampilKategori()">BCT <span>APPS</span></h1>
+  </div>
+
+  <div class="container">
+    <div id="navBab" class="nav-top">
+      <button class="btn-back" onclick="tampilKategori()"><i class="fas fa-arrow-left"></i> Kembali</button>
+      <h2 id="judulMapelSaatIni" class="page-title">Pilih Direktori</h2>
+    </div>
+
+    <div id="mainGrid" class="grid"></div>
+  </div>
+
+  <div id="kontenModal" class="modal">
+    <div class="modal-content">
+      <div class="close-btn" onclick="tutupModal('kontenModal')"><i class="fas fa-times"></i></div>
+      <h2 id="judulBabSaatIni" class="mod-title">Daftar Aplikasi</h2>
+      <div id="kontenList"></div>
+    </div>
+  </div>
+
+  <div id="iframeModal" class="modal">
+    <div class="modal-content">
+      <div class="iframe-header">
+        <strong id="iframeTitle" style="color: #004b87;">Preview Aplikasi</strong>
+        <div class="iframe-actions">
+          <a id="btnNewTab" href="#" target="_blank" class="btn-new-tab">
+            <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+          </a>
+          <button class="close-btn" onclick="tutupModal('iframeModal')">Tutup</button>
+        </div>
+      </div>
+      <iframe id="contentFrame" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================
+    // PASTE LINK /exec GOOGLE APPS SCRIPT DATABASE ANDA:
+    // ========================================================
+    const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbw-x7qjibHqAuD_U-hfUyBbKRdTbzPhYdISgjlDDmGvGEqUd26W0oiqsPYJWmlhUg/exec";
+    const API_URL = GOOGLE_APP_URL + "?p=api";
+
+    let allData = [];
+    let kategoriAktif = '';
+
+    window.onload = function() {
+      // Menampilkan loading state
+      document.getElementById('mainGrid').innerHTML = '<div class="loading-box"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:15px;">Memuat data aplikasi...</p></div>';
+
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(response => {
+          if (response.status === "error") {
+            tampilkanError('Sistem Gangguan', response.message);
+            return;
+          }
+          allData = response.data || [];
+          if(allData.length === 0) {
+            tampilkanError('Data Kosong', 'Belum ada aplikasi yang terdaftar di sistem.');
+          } else {
+            tampilKategori(); 
+          }
+        })
+        .catch(err => {
+          tampilkanError('Koneksi Terputus', 'Gagal memuat database dari server Google Script.');
+          console.error(err);
+        });
+    };
+
+    function tampilkanError(judul, deskripsi) {
+      document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="border-color:#ef4444; color:#ef4444;"><i class="fas fa-exclamation-triangle fa-2x"></i><h3 style="margin:10px 0;">' + judul + '</h3><p>' + deskripsi + '</p></div>';
+    }
+
+    // Menggunakan variabel 'mapel' bawaan agar database Sheet Anda tidak perlu diubah strukturnya
+    function tampilKategori() {
+      document.getElementById('navBab').style.display = 'none';
+      const grid = document.getElementById('mainGrid');
+      grid.innerHTML = '';
+      
+      const mapels = [];
+      for(let i=0; i<allData.length; i++) {
+        if(mapels.indexOf(allData[i].mapel) === -1) { mapels.push(allData[i].mapel); }
+      }
+      
+      const iconList = ['fa-briefcase', 'fa-chart-line', 'fa-users', 'fa-folder-open', 'fa-server', 'fa-cogs'];
+      
+      for(let j=0; j<mapels.length; j++) {
+        const mapel = mapels[j];
+        const div = document.createElement('div');
+        div.className = 'card';
+        let randomIcon = iconList[j % iconList.length];
+        div.innerHTML = '<i class="fas ' + randomIcon + '"></i><h2>' + mapel + '</h2>';
+        div.onclick = function() { tampilSubKategori(mapel); }; 
+        grid.appendChild(div);
+      }
+    }
+
+    function tampilSubKategori(mapel) {
+      kategoriAktif = mapel;
+      document.getElementById('navBab').style.display = 'flex';
+      document.getElementById('judulMapelSaatIni').innerText = mapel.toUpperCase();
+      
+      const grid = document.getElementById('mainGrid');
+      grid.innerHTML = '';
+      
+      const babs = [];
+      for(let i=0; i<allData.length; i++) {
+        if(allData[i].mapel === mapel && babs.indexOf(allData[i].bab) === -1) { babs.push(allData[i].bab); }
+      }
+      
+      for(let j=0; j<babs.length; j++) {
+        const bab = babs[j];
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = '<i class="fas fa-layer-group"></i><h2>' + bab + '</h2>';
+        div.onclick = function() { tampilKonten(mapel, bab); }; 
+        grid.appendChild(div);
+      }
+    }
+
+    function tampilKonten(mapel, bab) {
+      document.getElementById('judulBabSaatIni').innerText = bab.toUpperCase();
+      const list = document.getElementById('kontenList');
+      list.innerHTML = '';
+      
+      const konten = [];
+      for(let i=0; i<allData.length; i++) {
+        if(allData[i].mapel === mapel && allData[i].bab === bab) { konten.push(allData[i]); }
+      }
+      
+      for(let j=0; j<konten.length; j++) {
+        const item = konten[j];
+        const btn = document.createElement('div');
+        btn.className = 'sub-menu-btn';
+        
+        let ikon = 'fa-external-link-square-alt';
+        if(item.jenis.toLowerCase().indexOf('laporan') !== -1) ikon = 'fa-file-alt';
+        if(item.jenis.toLowerCase().indexOf('dashboard') !== -1) ikon = 'fa-chart-pie';
+        if(item.jenis.toLowerCase().indexOf('form') !== -1) ikon = 'fa-edit';
+        
+        btn.innerHTML = '<i class="fas ' + ikon + '"></i> <div><span class="sub-jenis">' + item.jenis + '</span><br><span class="sub-judul">' + item.judul + '</span></div>';
+        
+        btn.onclick = function() {
+          let url = item.url;
+          bukaIframe(url, item.judul);
+        };
+        list.appendChild(btn);
+      }
+      document.getElementById('kontenModal').style.display = 'flex';
+    }
+
+    function bukaIframe(url, judul) {
+      document.getElementById('iframeTitle').innerText = judul;
+      document.getElementById('btnNewTab').href = url; // Set link untuk tombol tab baru
+      document.getElementById('contentFrame').src = url;
+      document.getElementById('iframeModal').style.display = 'flex';
+    }
+
+    function tutupModal(id) {
+      document.getElementById(id).style.display = 'none';
+      if(id === 'iframeModal') { 
+        document.getElementById('contentFrame').src = ''; 
+        document.getElementById('btnNewTab').href = '#';
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('BCT Apps PWA Ready!'));
+    }
+  </script>
+</body>
+</html>
