@@ -14,40 +14,76 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background-color: #f4f6f9; color: #333; min-height: 100vh; overflow-x: hidden; }
     
-    /* Header Korporat: Dinamis menyesuaikan layar */
+    /* =========================================
+       HALAMAN LOGIN
+       ========================================= */
+    #loginScreen {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(135deg, #004b87 0%, #002b5e 100%);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999; padding: 1.5rem;
+    }
+    .login-box {
+      background: #ffffff; width: 100%; max-width: 400px;
+      border-radius: 16px; padding: 2.5rem 2rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .login-logo {
+      background: #004b87; padding: 10px 20px; border-radius: 8px;
+      display: inline-block; margin-bottom: 1.5rem;
+    }
+    .login-logo img { height: 30px; object-fit: contain; }
+    .login-box h2 { color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .login-box p { color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }
+    
+    .input-group { position: relative; margin-bottom: 1.5rem; }
+    .input-group i {
+      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+      color: #94a3b8; font-size: 1.1rem;
+    }
+    .login-input {
+      width: 100%; padding: 14px 15px 14px 45px;
+      border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 1rem; font-family: 'Poppins', sans-serif;
+      transition: all 0.3s;
+    }
+    .login-input:focus { border-color: #004b87; outline: none; box-shadow: 0 0 0 3px rgba(0,75,135,0.1); }
+    
+    .btn-login {
+      width: 100%; padding: 14px; background: #ffc107;
+      color: #000; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: all 0.2s; font-family: 'Poppins', sans-serif;
+    }
+    .btn-login:hover { background: #e0a800; transform: translateY(-2px); }
+    .btn-login:active { transform: translateY(0); }
+    
+    #pesanError { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none; font-weight: 500;}
+
+    /* =========================================
+       APLIKASI UTAMA (Disembunyikan saat belum login)
+       ========================================= */
+    #mainApp { display: none; }
+
+    /* Header Korporat */
     .header { 
       background: #004b87; 
-      /* Padding dinamis: mengecil di HP, membesar di Laptop untuk ruang bernapas */
       padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem); 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      gap: 15px; /* Jarak aman agar teks dan logo tidak saling tabrak */
-      border-bottom: 4px solid #ffc107; 
-      position: sticky; top: 0; z-index: 10; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+      display: flex; justify-content: space-between; align-items: center; 
+      gap: 15px; border-bottom: 4px solid #ffc107; 
+      position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
     }
-    
     .header h1 { 
-      /* Ukuran font dinamis: min 1rem (HP), proporsional 4.5vw, max 1.5rem (PC) */
-      font-size: clamp(1rem, 4.5vw, 1.5rem); 
-      color: white; font-weight: 700; 
-      letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0;
-      white-space: nowrap; /* Mencegah teks turun ke bawah */
+      font-size: clamp(1rem, 4.5vw, 1.5rem); color: white; font-weight: 700; 
+      letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0; white-space: nowrap; 
     }
     .header h1 span { color: #ffc107; }
-    
-    /* Logo Mandiri: Ukurannya elastis */
-    .logo-mandiri {
-      /* Tinggi dinamis: min 24px (HP), proporsional 7vw, max 40px (PC) */
-      height: clamp(24px, 7vw, 40px); 
-      object-fit: contain;
-      flex-shrink: 0; /* Menjaga logo tidak gepeng saat layar sempit */
-    }
+    .logo-mandiri { height: clamp(24px, 7vw, 40px); object-fit: contain; flex-shrink: 0; }
 
     .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
     
-    /* Tampilan Grid Dinamis: 2 Kolom (HP), 3 Kolom (Tablet), 4 Kolom (Laptop) */
+    /* Grid Dinamis */
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
     @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
@@ -58,7 +94,7 @@
     .card i { font-size: clamp(2rem, 5vw, 2.8rem); color: #004b87; margin-bottom: 0.8rem; }
     .card h2 { font-size: clamp(0.8rem, 2vw, 1rem); font-weight: 600; line-height: 1.3; color: #334155; }
     
-    /* Modals Clean Design */
+    /* Modals */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; backdrop-filter: blur(4px); }
     .modal-content { background: #ffffff; padding: 2rem 1.5rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
     
@@ -71,90 +107,130 @@
     .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; transition: all 0.2s; width: 25px; text-align: center;}
     .sub-menu-btn div { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
     
-    /* Iframe Modal Khusus - Full Layar */
+    /* Iframe Modal & Floating Dock */
     #iframeModal { padding: 0; } 
-    #iframeModal .modal-content { 
-      width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; 
-      padding: 0; border-radius: 0; position: relative; background: #f4f6f9; 
-    } 
+    #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; position: relative; background: #f4f6f9; } 
     
-    /* Tombol Mengambang di Kanan Atas */
-    .floating-dock {
-      position: absolute;
-      top: 15px; 
-      right: 15px; 
-      display: flex;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.6); 
-      backdrop-filter: blur(8px); 
-      padding: 6px 12px;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .icon-btn { 
-      width: 35px; height: 35px; 
-      display: flex; justify-content: center; align-items: center; 
-      border-radius: 50%; 
-      font-size: 0.95rem; 
-      color: #004b87; 
-      background: #ffffff; 
-      border: none; text-decoration: none; cursor: pointer; transition: 0.2s; 
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+    .floating-dock { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 100; border: 1px solid rgba(255, 255, 255, 0.3); }
+    .icon-btn { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 0.95rem; color: #004b87; background: #ffffff; border: none; text-decoration: none; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .icon-btn:hover { background: #e2e8f0; transform: translateY(-2px); }
     .close-icon { background: #ef4444; color: white; }
     .close-icon:hover { background: #dc2626; color: white; }
     
     iframe { width: 100%; height: 100%; border: none; display: block; background: #fff;}
-    
     .loading-box { text-align: center; padding: 3rem; background: transparent; color: #004b87; display: flex; justify-content: center; align-items: center;}
     .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.1rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1 onclick="tampilKategori()">BC-Team <span>Portal</span></h1>
-    <img src="logo-mandiri-putih.png" alt="Bank Mandiri" class="logo-mandiri" onerror="this.style.display='none'">
-  </div>
-
-  <div class="container">
-    <div id="mainGrid" class="grid"></div>
-  </div>
-
-  <div id="kontenModal" class="modal">
-    <div class="modal-content">
-      <div class="close-btn" onclick="tutupModal('kontenModal')"><i class="fas fa-times"></i></div>
-      <h2 id="judulAplikasi" class="mod-title">Nama Aplikasi</h2>
-      <div id="kontenList"></div>
-    </div>
-  </div>
-
-  <div id="iframeModal" class="modal">
-    <div class="modal-content">
-      
-      <iframe id="contentFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-      
-      <div class="floating-dock">
-        <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
-        <a id="btnNewTab" href="#" target="_blank" class="icon-btn" title="Buka di Tab Baru"><i class="fas fa-external-link-alt"></i></a>
-        <button class="icon-btn close-icon" onclick="tutupModal('iframeModal')" title="Tutup"><i class="fas fa-times"></i></button>
+  <div id="loginScreen">
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="logo-mandiri-putih.png" alt="Bank Mandiri" onerror="this.style.display='none'">
       </div>
-
+      <h2>BC-Team Portal</h2>
+      <p>Pusat Kendali Aplikasi Internal</p>
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="inputPassword" class="login-input" placeholder="Masukkan Password" onkeypress="cekEnter(event)">
+      </div>
+      
+      <button class="btn-login" onclick="prosesLogin()">Masuk Portal <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></button>
+      
+      <div id="pesanError"><i class="fas fa-exclamation-circle"></i> Password salah! Silakan coba lagi.</div>
     </div>
+  </div>
+
+
+  <div id="mainApp">
+    
+    <div class="header">
+      <h1 onclick="tampilKategori()">BC-Team <span>Portal</span></h1>
+      <img src="logo-mandiri-putih.png" alt="Bank Mandiri" class="logo-mandiri" onclick="konfirmasiLogout()" title="Klik 2x untuk Logout" onerror="this.style.display='none'">
+    </div>
+
+    <div class="container">
+      <div id="mainGrid" class="grid"></div>
+    </div>
+
+    <div id="kontenModal" class="modal">
+      <div class="modal-content">
+        <div class="close-btn" onclick="tutupModal('kontenModal')"><i class="fas fa-times"></i></div>
+        <h2 id="judulAplikasi" class="mod-title">Nama Aplikasi</h2>
+        <div id="kontenList"></div>
+      </div>
+    </div>
+
+    <div id="iframeModal" class="modal">
+      <div class="modal-content">
+        <iframe id="contentFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        <div class="floating-dock">
+          <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
+          <a id="btnNewTab" href="#" target="_blank" class="icon-btn" title="Buka di Tab Baru"><i class="fas fa-external-link-alt"></i></a>
+          <button class="icon-btn close-icon" onclick="tutupModal('iframeModal')" title="Tutup"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
+    // ========================================================
+    // KONFIGURASI PASSWORD & DATABASE
+    // ========================================================
+    const PASSWORD_PORTAL = "bct2026"; // <-- GANTI PASSWORD DI SINI
+    
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
     let allData = [];
     let urlAktif = '';
     let judulAktif = '';
 
+    // Mengecek status login saat pertama kali halaman dibuka
     window.onload = function() {
+      const statusLogin = localStorage.getItem("bct_auth_status");
+      
+      if (statusLogin === "sudah_login") {
+        // Jika sudah pernah login, langsung masuk ke aplikasi utama
+        bukaPortal();
+      } else {
+        // Jika belum, fokuskan kursor ke kotak password
+        document.getElementById('inputPassword').focus();
+      }
+    };
+
+    // Fungsi jika tombol Enter ditekan di keyboard
+    function cekEnter(event) {
+      if (event.key === "Enter") {
+        prosesLogin();
+      }
+    }
+
+    // Fungsi Validasi Password
+    function prosesLogin() {
+      const inputan = document.getElementById('inputPassword').value;
+      const errorMsg = document.getElementById('pesanError');
+      
+      if (inputan === PASSWORD_PORTAL) {
+        // Simpan tiket di memori perangkat
+        localStorage.setItem("bct_auth_status", "sudah_login");
+        // Buka portal
+        bukaPortal();
+      } else {
+        // Tampilkan pesan error
+        errorMsg.style.display = "block";
+        document.getElementById('inputPassword').value = ''; // Kosongkan inputan
+        document.getElementById('inputPassword').focus();
+      }
+    }
+
+    // Fungsi membuka portal dan menarik data CSV
+    function bukaPortal() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
       fetch(SHEET_CSV_URL)
@@ -171,17 +247,31 @@
           tampilkanError('Koneksi Terputus', 'Gagal memuat CSV. Pastikan Google Sheet sudah di-Publish ke Web.');
           console.error(err);
         });
-    };
+    }
 
+    // Fitur Tambahan Rahasia: Logout dengan klik 2x pada logo Mandiri
+    let klikLogo = 0;
+    function konfirmasiLogout() {
+      klikLogo++;
+      if (klikLogo >= 2) {
+        if(confirm("Apakah Anda ingin Logout dari portal ini?")) {
+          localStorage.removeItem("bct_auth_status");
+          location.reload(); // Refresh halaman agar kembali ke login
+        }
+        klikLogo = 0;
+      }
+      setTimeout(() => { klikLogo = 0; }, 1000); // Reset timer klik dalam 1 detik
+    }
+
+    // ========================================================
+    // FUNGSI INTI PORTAL (Sama seperti sebelumnya)
+    // ========================================================
     function prosesDataCSV(csvText) {
       const baris = csvText.split('\n');
       allData = [];
-      
       for (let i = 1; i < baris.length; i++) {
         if (!baris[i].trim()) continue; 
-        
         const kolom = baris[i].split(',');
-        
         if (kolom.length >= 3) {
           allData.push({
             nama: kolom[0].replace(/['"]/g, '').trim(),
@@ -199,22 +289,18 @@
     function tampilKategori() {
       const grid = document.getElementById('mainGrid');
       grid.innerHTML = '';
-      
       const daftarAplikasi = [];
       for(let i = 0; i < allData.length; i++) {
         if(daftarAplikasi.indexOf(allData[i].nama) === -1 && allData[i].nama !== '') { 
           daftarAplikasi.push(allData[i].nama); 
         }
       }
-      
       const iconList = ['fa-cubes', 'fa-laptop-code', 'fa-server', 'fa-network-wired', 'fa-mobile-alt'];
-      
       for(let j = 0; j < daftarAplikasi.length; j++) {
         const namaApp = daftarAplikasi[j];
         const div = document.createElement('div');
         div.className = 'card';
         let randomIcon = iconList[j % iconList.length];
-        
         div.innerHTML = '<i class="fas ' + randomIcon + '"></i><h2>' + namaApp + '</h2>';
         div.onclick = function() { tampilPilihanHalaman(namaApp); }; 
         grid.appendChild(div);
@@ -225,35 +311,28 @@
       document.getElementById('judulAplikasi').innerText = namaApp;
       const list = document.getElementById('kontenList');
       list.innerHTML = '';
-      
       const pilihan = allData.filter(item => item.nama === namaApp);
-      
       for(let j = 0; j < pilihan.length; j++) {
         const item = pilihan[j];
         const btn = document.createElement('div');
         btn.className = 'sub-menu-btn';
-        
         let ikon = 'fa-link';
         const jenisLower = item.jenis.toLowerCase();
         
         if(jenisLower.includes('utama')) ikon = 'fa-desktop';
         if(jenisLower.includes('admin')) ikon = 'fa-user-cog';
         if(jenisLower.includes('login')) ikon = 'fa-sign-in-alt';
-        
         if(jenisLower.includes('pdf') || item.url.toLowerCase().includes('.pdf')) {
           ikon = 'fa-file-pdf';
         }
         
         btn.innerHTML = '<i class="fas ' + ikon + '"></i> <div>' + item.jenis + '</div>';
-        
         btn.onclick = function() {
           let urlYangDibuka = item.url;
-          
           if(item.url.toLowerCase().includes('.pdf') || jenisLower.includes('pdf')) {
             const urlPdfEditorSaya = 'https://rbcduabelas.github.io/omtoro-pdf/';
             urlYangDibuka = urlPdfEditorSaya + '?buka=' + encodeURIComponent(item.url);
           }
-          
           bukaIframe(urlYangDibuka, namaApp + ' - ' + item.jenis);
         };
         list.appendChild(btn);
@@ -264,7 +343,6 @@
     function bukaIframe(url, judulDetail) {
       urlAktif = url;
       judulAktif = judulDetail;
-      
       document.getElementById('btnNewTab').href = url;
       document.getElementById('contentFrame').src = url;
       document.getElementById('iframeModal').style.display = 'flex';
@@ -282,23 +360,12 @@
 
     async function bagikanLink() {
       if (!urlAktif) return;
-      
       if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'BC-Team Portal: ' + judulAktif,
-            text: 'Buka ' + judulAktif + ' di sini:',
-            url: urlAktif
-          });
-        } catch (err) {
-          console.log('Share dibatalkan atau error:', err);
-        }
+        try { await navigator.share({ title: 'BC-Team Portal: ' + judulAktif, text: 'Buka ' + judulAktif + ' di sini:', url: urlAktif });
+        } catch (err) { console.log('Share dibatalkan'); }
       } else {
-        navigator.clipboard.writeText(urlAktif).then(() => {
-          alert('Link berhasil disalin!');
-        }).catch(err => {
-          alert('Gagal menyalin link.');
-        });
+        navigator.clipboard.writeText(urlAktif).then(() => { alert('Link berhasil disalin!');
+        }).catch(err => { alert('Gagal menyalin link.'); });
       }
     }
 
