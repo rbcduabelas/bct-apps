@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bct-portal-v4.0';
+const CACHE_NAME = 'bct-portal-v5.0';
 const urlsToCache = [
   './',
   './index.html',
