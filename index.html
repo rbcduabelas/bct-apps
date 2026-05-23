@@ -16,6 +16,20 @@
     body { font-family: 'Poppins', sans-serif; background-color: #f4f6f9; color: #333; min-height: 100vh; overflow-x: hidden; }
     
     /* =========================================
+       CUSTOM SPLASH SCREEN (DIKUNCI 3 DETIK)
+       ========================================= */
+    #customSplash {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: #ffffff; /* Memastikan background pasti putih bersih */
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 10000; /* Berada di lapisan paling atas */
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .splash-logo { height: 60px; object-fit: contain; margin-bottom: 20px; }
+    .splash-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .splash-desc { color: #64748b; font-size: 1rem; font-weight: 500; letter-spacing: 0.5px; }
+
+    /* =========================================
        HALAMAN LOGIN
        ========================================= */
     #loginScreen {
@@ -33,11 +47,9 @@
     .login-logo { display: inline-block; margin-bottom: 1.2rem; }
     .login-logo img { height: 35px; object-fit: contain; } 
     
-    /* Perubahan Warna Teks Login */
     .login-box h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
     .teks-bc { color: #004b87; }
-    .teks-portal { color: #e0a800; } /* Kuning sedikit gelap agar kontras di warna putih */
-    
+    .teks-portal { color: #e0a800; } 
     .login-box p { color: #64748b; font-size: 0.95rem; margin-bottom: 2rem; }
     
     .input-group { position: relative; margin-bottom: 1.5rem; }
@@ -124,6 +136,13 @@
 </head>
 <body>
 
+  <div id="customSplash">
+    <img src="logo-mandiri-biru.png" class="splash-logo" onerror="this.style.display='none'">
+    <h2 class="splash-title"><span class="teks-bc">BC-Team</span> <span class="teks-portal">Portal</span></h2>
+    <p class="splash-desc">Semuanya Ada Disini</p>
+  </div>
+
+
   <div id="loginScreen">
     <div class="login-box">
       <div class="login-logo">
@@ -180,23 +199,27 @@
   </div>
 
   <script>
-    // ========================================================
-    // KONFIGURASI PASSWORD & DATABASE
-    // ========================================================
     const PASSWORD_PORTAL = "mandiri2026"; 
-    
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
     let allData = [];
     let urlAktif = '';
     let judulAktif = '';
-    let timerMatiGaya; // Variabel untuk auto-logout
+    let timerMatiGaya; 
 
     window.onload = function() {
+      // 1. KUNCI SPLASH SCREEN MINIMAL 3 DETIK (3000ms)
+      setTimeout(() => {
+        const splash = document.getElementById('customSplash');
+        splash.style.opacity = '0';
+        splash.style.transform = 'scale(1.05)';
+        setTimeout(() => { splash.style.display = 'none'; }, 500); // Sembunyikan total setelah efek transisi selesai
+      }, 3000);
+
+      // 2. Cek status otentikasi login
       const statusLogin = localStorage.getItem("bct_auth_status");
       const paramURL = new URLSearchParams(window.location.search);
       
-      // Munculkan notif sesi habis jika barusan di-kick oleh sistem
       if(paramURL.get('timeout') === 'true') {
         document.getElementById('pesanLogout').style.display = "block";
       }
@@ -220,7 +243,6 @@
       if (inputan === PASSWORD_PORTAL) {
         localStorage.setItem("bct_auth_status", "sudah_login");
         logoutMsg.style.display = "none";
-        // Bersihkan parameter URL jika ada
         window.history.replaceState({}, document.title, window.location.pathname);
         bukaPortal();
       } else {
@@ -230,12 +252,9 @@
       }
     }
 
-    // ========================================================
-    // FITUR AUTO LOGOUT (3 MENIT)
-    // ========================================================
+    // FITUR AUTO LOGOUT (3 MENIT TANPA AKTIVITAS)
     function resetTimerIdle() {
       clearTimeout(timerMatiGaya);
-      // Set timer 3 Menit (180.000 ms)
       timerMatiGaya = setTimeout(keluarOtomatis, 180000); 
     }
 
@@ -243,29 +262,23 @@
       const statusLogin = localStorage.getItem("bct_auth_status");
       if (statusLogin === "sudah_login") {
         localStorage.removeItem("bct_auth_status");
-        // Refresh halaman dan beri parameter timeout
         window.location.href = window.location.pathname + "?timeout=true";
       }
     }
 
     function pasangSensorAktivitas() {
-      // Deteksi gerakan mouse, ketikan, klik, scroll, atau sentuhan di HP
       window.addEventListener('mousemove', resetTimerIdle);
       window.addEventListener('keydown', resetTimerIdle);
       window.addEventListener('click', resetTimerIdle);
       window.addEventListener('scroll', resetTimerIdle);
       window.addEventListener('touchstart', resetTimerIdle);
-      resetTimerIdle(); // Jalankan argo pertama kali
+      resetTimerIdle(); 
     }
 
-    // ========================================================
-    // PROSES PORTAL
-    // ========================================================
     function bukaPortal() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
       
-      // Aktifkan sensor auto logout karena user sudah masuk
       pasangSensorAktivitas();
       
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
@@ -402,12 +415,9 @@
       }
     }
 
-    // REGISTRASI PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('PWA Service Worker sukses terdaftar.'))
-          .catch(err => console.log('PWA gagal terdaftar.', err));
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('PWA Service Worker tidak ditemukan.'));
       });
     }
   </script>
