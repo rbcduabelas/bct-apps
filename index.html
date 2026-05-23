@@ -42,19 +42,46 @@
     .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; transition: all 0.2s; width: 25px; text-align: center;}
     .sub-menu-btn div { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
     
-    /* Iframe Modal Khusus - Full Layar dengan Ikon */
+    /* Iframe Modal Khusus - Full Layar */
     #iframeModal { padding: 0; } 
-    #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; display: flex; flex-direction: column; background: #f4f6f9; } 
-    .iframe-header { background: #ffffff; padding: 8px 15px; display: flex; justify-content: flex-end; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .iframe-actions { display: flex; align-items: center; gap: 10px; }
+    #iframeModal .modal-content { 
+      width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; 
+      padding: 0; border-radius: 0; position: relative; background: #f4f6f9; 
+    } 
     
-    /* Style untuk tombol ikon di Iframe */
-    .icon-btn { width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 8px; font-size: 1.1rem; color: #004b87; background: #f1f5f9; border: none; text-decoration: none; cursor: pointer; transition: 0.2s; }
-    .icon-btn:hover { background: #e2e8f0; }
-    .close-icon { background: #fee2e2; color: #ef4444; }
-    .close-icon:hover { background: #fca5a5; color: white; }
+    /* Tombol Mengambang (Floating Dock) */
+    .floating-dock {
+      position: absolute;
+      bottom: 30px; /* Jarak dari bawah layar */
+      left: 50%;
+      transform: translateX(-50%); /* Menempatkan persis di tengah */
+      display: flex;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.7); /* Latar transparan */
+      backdrop-filter: blur(10px); /* Efek kaca buram */
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
     
-    iframe { width: 100%; flex-grow: 1; border: none; display: block; background: #fff;}
+    /* Style untuk tombol ikon di dalam dock */
+    .icon-btn { 
+      width: 45px; height: 45px; 
+      display: flex; justify-content: center; align-items: center; 
+      border-radius: 50%; /* Tombol bulat */
+      font-size: 1.2rem; 
+      color: #004b87; 
+      background: #ffffff; 
+      border: none; text-decoration: none; cursor: pointer; transition: 0.2s; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .icon-btn:hover { background: #e2e8f0; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+    .close-icon { background: #ef4444; color: white; }
+    .close-icon:hover { background: #dc2626; color: white; }
+    
+    iframe { width: 100%; height: 100%; border: none; display: block; background: #fff;}
     
     .loading-box { text-align: center; padding: 3rem; background: transparent; color: #004b87; display: flex; justify-content: center; align-items: center;}
     .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.1rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
@@ -80,14 +107,15 @@
 
   <div id="iframeModal" class="modal">
     <div class="modal-content">
-      <div class="iframe-header">
-        <div class="iframe-actions">
-          <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
-          <a id="btnNewTab" href="#" target="_blank" class="icon-btn" title="Buka di Tab Baru"><i class="fas fa-external-link-alt"></i></a>
-          <button class="icon-btn close-icon" onclick="tutupModal('iframeModal')" title="Tutup"><i class="fas fa-times"></i></button>
-        </div>
-      </div>
+      
       <iframe id="contentFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      
+      <div class="floating-dock">
+        <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
+        <a id="btnNewTab" href="#" target="_blank" class="icon-btn" title="Buka di Tab Baru"><i class="fas fa-external-link-alt"></i></a>
+        <button class="icon-btn close-icon" onclick="tutupModal('iframeModal')" title="Tutup"><i class="fas fa-times"></i></button>
+      </div>
+
     </div>
   </div>
 
