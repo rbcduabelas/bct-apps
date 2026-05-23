@@ -17,26 +17,25 @@
     /* Header Korporat: Diperkecil & Dirampingkan */
     .header { 
       background: #004b87; 
-      padding: 0.8rem 1.5rem; /* Padding diperkecil agar header tidak terlalu tebal */
+      padding: 0.8rem 1.5rem; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      border-bottom: 4px solid #ffc107; /* Garis kuning sedikit ditipiskan */
+      border-bottom: 4px solid #ffc107; 
       position: sticky; top: 0; z-index: 10; 
       box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
     }
     .header h1 { 
-      font-size: 1.15rem; /* Ukuran font diperkecil */
+      font-size: 1.15rem; 
       color: white; font-weight: 700; 
       letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0;
     }
     .header h1 span { color: #ffc107; }
     
-    /* Style Logo Bank Mandiri Transparan */
+    /* Style Logo Bank Mandiri Transparan - Proporsi Diperbesar */
     .logo-mandiri {
-      height: 24px; /* Tinggi logo disesuaikan dengan header yang lebih kecil */
+      height: 36px; /* Tinggi dinaikkan dari 24px ke 36px agar seimbang dengan teks */
       object-fit: contain;
-      /* Background putih dan shadow dihapus agar transparan menyatu dengan header */
     }
 
     .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
