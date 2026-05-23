@@ -19,41 +19,45 @@
     .header h1 { font-size: 1.4rem; color: white; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;}
     .header h1 span { color: #ffc107; }
 
-    .container { padding: 2rem 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+    .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
     
-    /* Tampilan Grid Thumbnail Modern */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
-    .card { background: #fff; border-radius: 12px; padding: 2rem 1rem; text-align: center; cursor: pointer; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
+    /* Tampilan Grid 2 Kolom */
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .card { background: #fff; border-radius: 12px; padding: 1.5rem 0.5rem; text-align: center; cursor: pointer; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #004b87; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
-    .card i { font-size: 3rem; color: #004b87; margin-bottom: 1rem; }
-    .card h2 { font-size: 1rem; font-weight: 600; line-height: 1.4; color: #334155; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 12px rgba(0,0,0,0.1); }
+    .card i { font-size: 2.2rem; color: #004b87; margin-bottom: 0.8rem; }
+    .card h2 { font-size: 0.85rem; font-weight: 600; line-height: 1.3; color: #334155; }
     
     /* Modals Clean Design */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; backdrop-filter: blur(4px); }
-    .modal-content { background: #ffffff; padding: 2rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .modal-content { background: #ffffff; padding: 2rem 1.5rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
     
     .close-btn { position: absolute; top: 15px; right: 15px; background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; }
     .close-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
     
-    .sub-menu-btn { display: flex; align-items: center; padding: 1.2rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 1rem; cursor: pointer; color: #334155; transition: all 0.2s; text-align: left; }
+    .sub-menu-btn { display: flex; align-items: center; padding: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 0.8rem; cursor: pointer; color: #334155; transition: all 0.2s; text-align: left; }
     .sub-menu-btn:hover { background: #004b87; color: white; border-color: #004b87; transform: translateX(5px); }
     .sub-menu-btn:hover i { color: #ffc107; }
-    .sub-menu-btn i { font-size: 1.5rem; margin-right: 1.2rem; color: #64748b; transition: all 0.2s; width: 30px; text-align: center;}
-    .sub-menu-btn div { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+    .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; transition: all 0.2s; width: 25px; text-align: center;}
+    .sub-menu-btn div { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
     
-    /* Iframe Modal Khusus */
+    /* Iframe Modal Khusus - Full Layar dengan Ikon */
     #iframeModal { padding: 0; } 
     #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; display: flex; flex-direction: column; background: #f4f6f9; } 
-    .iframe-header { background: #ffffff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .iframe-actions { display: flex; align-items: center; gap: 15px; }
-    .btn-new-tab { background: #ffc107; color: #000; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
-    .btn-new-tab:hover { background: #e0a800; }
-    #iframeModal .close-btn { position: static; width: auto; height: auto; padding: 6px 12px; border-radius: 6px; background: #ef4444; color: white; border: none; font-weight: 500; font-size: 0.85rem; }
+    .iframe-header { background: #ffffff; padding: 8px 15px; display: flex; justify-content: flex-end; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .iframe-actions { display: flex; align-items: center; gap: 10px; }
+    
+    /* Style untuk tombol ikon di Iframe */
+    .icon-btn { width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 8px; font-size: 1.1rem; color: #004b87; background: #f1f5f9; border: none; text-decoration: none; cursor: pointer; transition: 0.2s; }
+    .icon-btn:hover { background: #e2e8f0; }
+    .close-icon { background: #fee2e2; color: #ef4444; }
+    .close-icon:hover { background: #fca5a5; color: white; }
+    
     iframe { width: 100%; flex-grow: 1; border: none; display: block; background: #fff;}
     
-    .loading-box { text-align: center; padding: 3rem; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b; }
-    .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.2rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
+    .loading-box { text-align: center; padding: 3rem; background: transparent; color: #004b87; display: flex; justify-content: center; align-items: center;}
+    .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.1rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
   </style>
 </head>
 <body>
@@ -77,12 +81,10 @@
   <div id="iframeModal" class="modal">
     <div class="modal-content">
       <div class="iframe-header">
-        <strong id="iframeTitle" style="color: #004b87;">Preview Aplikasi</strong>
         <div class="iframe-actions">
-          <a id="btnNewTab" href="#" target="_blank" class="btn-new-tab">
-            <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
-          </a>
-          <button class="close-btn" onclick="tutupModal('iframeModal')">Tutup</button>
+          <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
+          <a id="btnNewTab" href="#" target="_blank" class="icon-btn" title="Buka di Tab Baru"><i class="fas fa-external-link-alt"></i></a>
+          <button class="icon-btn close-icon" onclick="tutupModal('iframeModal')" title="Tutup"><i class="fas fa-times"></i></button>
         </div>
       </div>
       <iframe id="contentFrame" src="" allowfullscreen></iframe>
@@ -96,9 +98,14 @@
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
     let allData = [];
+    
+    // Variabel untuk menyimpan data URL yang sedang aktif (untuk fitur share)
+    let urlAktif = '';
+    let judulAktif = '';
 
     window.onload = function() {
-      document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:15px;">Menghubungkan ke database...</p></div>';
+      // Menampilkan loading HANYA ikon spinner, tanpa teks
+      document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
       fetch(SHEET_CSV_URL)
         .then(response => response.text())
@@ -117,18 +124,14 @@
     };
 
     function prosesDataCSV(csvText) {
-      // Memecah teks per baris
       const baris = csvText.split('\n');
       allData = [];
       
-      // Mulai dari i=1 untuk melompati baris judul (header)
       for (let i = 1; i < baris.length; i++) {
-        if (!baris[i].trim()) continue; // Lewati baris kosong
+        if (!baris[i].trim()) continue; 
         
-        // Pisahkan berdasarkan koma
         const kolom = baris[i].split(',');
         
-        // Karena URL mungkin saja mengandung koma, kita gabungkan kembali sisa kolom untuk URL
         if (kolom.length >= 3) {
           allData.push({
             nama: kolom[0].replace(/['"]/g, '').trim(),
@@ -140,14 +143,13 @@
     }
 
     function tampilkanError(judul, deskripsi) {
-      document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1; border-color:#ef4444; color:#ef4444;"><i class="fas fa-exclamation-triangle fa-2x"></i><h3 style="margin:10px 0;">' + judul + '</h3><p>' + deskripsi + '</p></div>';
+      document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1; flex-direction:column; color:#ef4444;"><i class="fas fa-exclamation-triangle fa-2x" style="margin-bottom:10px;"></i><h3>' + judul + '</h3><p style="font-size:0.9rem; margin-top:5px;">' + deskripsi + '</p></div>';
     }
 
     function tampilKategori() {
       const grid = document.getElementById('mainGrid');
       grid.innerHTML = '';
       
-      // Mengelompokkan aplikasi berdasarkan "Nama Aplikasi" yang unik
       const daftarAplikasi = [];
       for(let i = 0; i < allData.length; i++) {
         if(daftarAplikasi.indexOf(allData[i].nama) === -1 && allData[i].nama !== '') { 
@@ -174,7 +176,6 @@
       const list = document.getElementById('kontenList');
       list.innerHTML = '';
       
-      // Ambil data yang sesuai dengan Nama Aplikasi yang diklik
       const pilihan = allData.filter(item => item.nama === namaApp);
       
       for(let j = 0; j < pilihan.length; j++) {
@@ -182,7 +183,6 @@
         const btn = document.createElement('div');
         btn.className = 'sub-menu-btn';
         
-        // Otomatis memilih ikon berdasarkan kata kunci di "Jenis Halaman"
         let ikon = 'fa-link';
         const jenisLower = item.jenis.toLowerCase();
         if(jenisLower.includes('utama')) ikon = 'fa-desktop';
@@ -200,7 +200,10 @@
     }
 
     function bukaIframe(url, judulDetail) {
-      document.getElementById('iframeTitle').innerText = judulDetail;
+      // Simpan data ke variabel global untuk fitur Share
+      urlAktif = url;
+      judulAktif = judulDetail;
+      
       document.getElementById('btnNewTab').href = url;
       document.getElementById('contentFrame').src = url;
       document.getElementById('iframeModal').style.display = 'flex';
@@ -211,11 +214,38 @@
       if(id === 'iframeModal') { 
         document.getElementById('contentFrame').src = ''; 
         document.getElementById('btnNewTab').href = '#';
+        urlAktif = '';
+        judulAktif = '';
+      }
+    }
+
+    // Fungsi Share / Bagikan Link
+    async function bagikanLink() {
+      if (!urlAktif) return;
+      
+      // Cek apakah HP/Browser mendukung fitur Web Share API (WhatsApp, dsb)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'BCT Apps: ' + judulAktif,
+            text: 'Buka ' + judulAktif + ' di sini:',
+            url: urlAktif
+          });
+        } catch (err) {
+          console.log('Share dibatalkan atau error:', err);
+        }
+      } else {
+        // Fallback: Jika dibuka di PC atau browser lama, akan menyalin link ke Clipboard
+        navigator.clipboard.writeText(urlAktif).then(() => {
+          alert('Link aplikasi berhasil disalin!');
+        }).catch(err => {
+          alert('Gagal menyalin link.');
+        });
       }
     }
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(err => console.log('PWA Service Worker tidak ditemukan, abaikan jika tidak pakai PWA.'));
+      navigator.serviceWorker.register('./sw.js').catch(err => console.log('PWA Service Worker tidak ditemukan.'));
     }
   </script>
 </body>
