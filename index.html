@@ -199,6 +199,9 @@
   </div>
 
   <script>
+    // ========================================================
+    // KONFIGURASI PASSWORD & DATABASE
+    // ========================================================
     const PASSWORD_PORTAL = "mandiri2026"; 
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
@@ -373,12 +376,23 @@
         }
         
         btn.innerHTML = '<i class="fas ' + ikon + '"></i> <div>' + item.jenis + '</div>';
+        
+        // ==========================================
+        // UPDATE: Penanganan Khusus Link Google Drive
+        // ==========================================
         btn.onclick = function() {
           let urlYangDibuka = item.url;
+          
           if(item.url.toLowerCase().includes('.pdf') || jenisLower.includes('pdf')) {
             const urlPdfEditorSaya = 'https://rbcduabelas.github.io/omtoro-pdf/';
             urlYangDibuka = urlPdfEditorSaya + '?buka=' + encodeURIComponent(item.url);
+          } 
+          else if (item.url.includes('drive.google.com')) {
+            // Mengekstrak ID dari link Google Drive biasa dan mengubahnya menjadi format /preview
+            const match = item.url.match(/[-\w]{25,}/);
+            if(match) urlYangDibuka = 'https://drive.google.com/file/d/' + match[0] + '/preview';
           }
+          
           bukaIframe(urlYangDibuka, namaApp + ' - ' + item.jenis);
         };
         list.appendChild(btn);
