@@ -7,6 +7,7 @@
   
   <meta name="theme-color" content="#004b87">
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,13 +30,14 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.3);
       text-align: center;
     }
-    /* Kotak biru dihilangkan agar logo biru terlihat bagus di atas warna putih */
-    .login-logo {
-      display: inline-block; margin-bottom: 1.2rem;
-    }
+    .login-logo { display: inline-block; margin-bottom: 1.2rem; }
     .login-logo img { height: 35px; object-fit: contain; } 
     
-    .login-box h2 { color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
+    /* Perubahan Warna Teks Login */
+    .login-box h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .teks-bc { color: #004b87; }
+    .teks-portal { color: #e0a800; } /* Kuning sedikit gelap agar kontras di warna putih */
+    
     .login-box p { color: #64748b; font-size: 0.95rem; margin-bottom: 2rem; }
     
     .input-group { position: relative; margin-bottom: 1.5rem; }
@@ -61,13 +63,13 @@
     .btn-login:active { transform: translateY(0); }
     
     #pesanError { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none; font-weight: 500;}
+    #pesanLogout { color: #004b87; font-size: 0.85rem; margin-top: 1rem; display: none; font-weight: 500; background: #e0f2fe; padding: 10px; border-radius: 8px;}
 
     /* =========================================
-       APLIKASI UTAMA (Disembunyikan saat belum login)
+       APLIKASI UTAMA
        ========================================= */
     #mainApp { display: none; }
 
-    /* Header Korporat */
     .header { 
       background: #004b87; 
       padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem); 
@@ -84,7 +86,6 @@
 
     .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
     
-    /* Grid Dinamis */
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
     @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
@@ -95,7 +96,6 @@
     .card i { font-size: clamp(2rem, 5vw, 2.8rem); color: #004b87; margin-bottom: 0.8rem; }
     .card h2 { font-size: clamp(0.8rem, 2vw, 1rem); font-weight: 600; line-height: 1.3; color: #334155; }
     
-    /* Modals */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; backdrop-filter: blur(4px); }
     .modal-content { background: #ffffff; padding: 2rem 1.5rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
     
@@ -108,7 +108,6 @@
     .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; transition: all 0.2s; width: 25px; text-align: center;}
     .sub-menu-btn div { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
     
-    /* Iframe Modal & Floating Dock */
     #iframeModal { padding: 0; } 
     #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; position: relative; background: #f4f6f9; } 
     
@@ -130,8 +129,11 @@
       <div class="login-logo">
         <img src="logo-mandiri-biru.png" alt="Bank Mandiri" onerror="this.style.display='none'">
       </div>
-      <h2>BC-Team Portal</h2>
+      
+      <h2><span class="teks-bc">BC-Team</span> <span class="teks-portal">Portal</span></h2>
       <p>Semuanya Ada Disini</p>
+      
+      <div id="pesanLogout"><i class="fas fa-info-circle"></i> Sesi habis karena tidak ada aktivitas (3 Menit).</div>
       
       <div class="input-group">
         <i class="fas fa-lock"></i>
@@ -181,16 +183,23 @@
     // ========================================================
     // KONFIGURASI PASSWORD & DATABASE
     // ========================================================
-    const PASSWORD_PORTAL = "mandiri2026"; // <-- GANTI PASSWORD DI SINI
+    const PASSWORD_PORTAL = "mandiri2026"; 
     
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
     let allData = [];
     let urlAktif = '';
     let judulAktif = '';
+    let timerMatiGaya; // Variabel untuk auto-logout
 
     window.onload = function() {
       const statusLogin = localStorage.getItem("bct_auth_status");
+      const paramURL = new URLSearchParams(window.location.search);
+      
+      // Munculkan notif sesi habis jika barusan di-kick oleh sistem
+      if(paramURL.get('timeout') === 'true') {
+        document.getElementById('pesanLogout').style.display = "block";
+      }
       
       if (statusLogin === "sudah_login") {
         bukaPortal();
@@ -200,17 +209,19 @@
     };
 
     function cekEnter(event) {
-      if (event.key === "Enter") {
-        prosesLogin();
-      }
+      if (event.key === "Enter") prosesLogin();
     }
 
     function prosesLogin() {
       const inputan = document.getElementById('inputPassword').value;
       const errorMsg = document.getElementById('pesanError');
+      const logoutMsg = document.getElementById('pesanLogout');
       
       if (inputan === PASSWORD_PORTAL) {
         localStorage.setItem("bct_auth_status", "sudah_login");
+        logoutMsg.style.display = "none";
+        // Bersihkan parameter URL jika ada
+        window.history.replaceState({}, document.title, window.location.pathname);
         bukaPortal();
       } else {
         errorMsg.style.display = "block";
@@ -219,9 +230,43 @@
       }
     }
 
+    // ========================================================
+    // FITUR AUTO LOGOUT (3 MENIT)
+    // ========================================================
+    function resetTimerIdle() {
+      clearTimeout(timerMatiGaya);
+      // Set timer 3 Menit (180.000 ms)
+      timerMatiGaya = setTimeout(keluarOtomatis, 180000); 
+    }
+
+    function keluarOtomatis() {
+      const statusLogin = localStorage.getItem("bct_auth_status");
+      if (statusLogin === "sudah_login") {
+        localStorage.removeItem("bct_auth_status");
+        // Refresh halaman dan beri parameter timeout
+        window.location.href = window.location.pathname + "?timeout=true";
+      }
+    }
+
+    function pasangSensorAktivitas() {
+      // Deteksi gerakan mouse, ketikan, klik, scroll, atau sentuhan di HP
+      window.addEventListener('mousemove', resetTimerIdle);
+      window.addEventListener('keydown', resetTimerIdle);
+      window.addEventListener('click', resetTimerIdle);
+      window.addEventListener('scroll', resetTimerIdle);
+      window.addEventListener('touchstart', resetTimerIdle);
+      resetTimerIdle(); // Jalankan argo pertama kali
+    }
+
+    // ========================================================
+    // PROSES PORTAL
+    // ========================================================
     function bukaPortal() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
+      
+      // Aktifkan sensor auto logout karena user sudah masuk
+      pasangSensorAktivitas();
       
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
@@ -357,8 +402,13 @@
       }
     }
 
+    // REGISTRASI PWA
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(err => console.log('PWA Service Worker tidak ditemukan.'));
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Service Worker sukses terdaftar.'))
+          .catch(err => console.log('PWA gagal terdaftar.', err));
+      });
     }
   </script>
 </body>
