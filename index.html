@@ -29,13 +29,14 @@
       box-shadow: 0 15px 30px rgba(0,0,0,0.3);
       text-align: center;
     }
+    /* Kotak biru dihilangkan agar logo biru terlihat bagus di atas warna putih */
     .login-logo {
-      background: #004b87; padding: 10px 20px; border-radius: 8px;
-      display: inline-block; margin-bottom: 1.5rem;
+      display: inline-block; margin-bottom: 1.2rem;
     }
-    .login-logo img { height: 30px; object-fit: contain; }
-    .login-box h2 { color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .login-box p { color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }
+    .login-logo img { height: 35px; object-fit: contain; } 
+    
+    .login-box h2 { color: #1e293b; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .login-box p { color: #64748b; font-size: 0.95rem; margin-bottom: 2rem; }
     
     .input-group { position: relative; margin-bottom: 1.5rem; }
     .input-group i {
@@ -79,7 +80,7 @@
       letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0; white-space: nowrap; 
     }
     .header h1 span { color: #ffc107; }
-    .logo-mandiri { height: clamp(24px, 7vw, 40px); object-fit: contain; flex-shrink: 0; }
+    .logo-mandiri { height: clamp(24px, 7vw, 40px); object-fit: contain; flex-shrink: 0; cursor: pointer;}
 
     .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
     
@@ -127,10 +128,10 @@
   <div id="loginScreen">
     <div class="login-box">
       <div class="login-logo">
-        <img src="logo-mandiri-putih.png" alt="Bank Mandiri" onerror="this.style.display='none'">
+        <img src="logo-mandiri-biru.png" alt="Bank Mandiri" onerror="this.style.display='none'">
       </div>
       <h2>BC-Team Portal</h2>
-      <p>Pusat Kendali Aplikasi Internal</p>
+      <p>Semuanya Ada Disini</p>
       
       <div class="input-group">
         <i class="fas fa-lock"></i>
@@ -180,7 +181,7 @@
     // ========================================================
     // KONFIGURASI PASSWORD & DATABASE
     // ========================================================
-    const PASSWORD_PORTAL = "bct2026"; // <-- GANTI PASSWORD DI SINI
+    const PASSWORD_PORTAL = "mandiri2026"; // <-- GANTI PASSWORD DI SINI
     
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
@@ -188,45 +189,36 @@
     let urlAktif = '';
     let judulAktif = '';
 
-    // Mengecek status login saat pertama kali halaman dibuka
     window.onload = function() {
       const statusLogin = localStorage.getItem("bct_auth_status");
       
       if (statusLogin === "sudah_login") {
-        // Jika sudah pernah login, langsung masuk ke aplikasi utama
         bukaPortal();
       } else {
-        // Jika belum, fokuskan kursor ke kotak password
         document.getElementById('inputPassword').focus();
       }
     };
 
-    // Fungsi jika tombol Enter ditekan di keyboard
     function cekEnter(event) {
       if (event.key === "Enter") {
         prosesLogin();
       }
     }
 
-    // Fungsi Validasi Password
     function prosesLogin() {
       const inputan = document.getElementById('inputPassword').value;
       const errorMsg = document.getElementById('pesanError');
       
       if (inputan === PASSWORD_PORTAL) {
-        // Simpan tiket di memori perangkat
         localStorage.setItem("bct_auth_status", "sudah_login");
-        // Buka portal
         bukaPortal();
       } else {
-        // Tampilkan pesan error
         errorMsg.style.display = "block";
-        document.getElementById('inputPassword').value = ''; // Kosongkan inputan
+        document.getElementById('inputPassword').value = ''; 
         document.getElementById('inputPassword').focus();
       }
     }
 
-    // Fungsi membuka portal dan menarik data CSV
     function bukaPortal() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
@@ -249,23 +241,19 @@
         });
     }
 
-    // Fitur Tambahan Rahasia: Logout dengan klik 2x pada logo Mandiri
     let klikLogo = 0;
     function konfirmasiLogout() {
       klikLogo++;
       if (klikLogo >= 2) {
         if(confirm("Apakah Anda ingin Logout dari portal ini?")) {
           localStorage.removeItem("bct_auth_status");
-          location.reload(); // Refresh halaman agar kembali ke login
+          location.reload(); 
         }
         klikLogo = 0;
       }
-      setTimeout(() => { klikLogo = 0; }, 1000); // Reset timer klik dalam 1 detik
+      setTimeout(() => { klikLogo = 0; }, 1000); 
     }
 
-    // ========================================================
-    // FUNGSI INTI PORTAL (Sama seperti sebelumnya)
-    // ========================================================
     function prosesDataCSV(csvText) {
       const baris = csvText.split('\n');
       allData = [];
