@@ -98,13 +98,11 @@
     const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTWTxB-StK3e1FmRltsQmTShksSMgDInlh91KEAJIRlKJra1P3Kc1eC_lINlJVjYnBlZDdrE9xqQ23g/pub?gid=0&single=true&output=csv";
 
     let allData = [];
-    
-    // Variabel untuk menyimpan data URL yang sedang aktif (untuk fitur share)
     let urlAktif = '';
     let judulAktif = '';
 
     window.onload = function() {
-      // Menampilkan loading HANYA ikon spinner, tanpa teks
+      // Menampilkan loading spinner
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
       fetch(SHEET_CSV_URL)
@@ -185,14 +183,30 @@
         
         let ikon = 'fa-link';
         const jenisLower = item.jenis.toLowerCase();
+        
         if(jenisLower.includes('utama')) ikon = 'fa-desktop';
         if(jenisLower.includes('admin')) ikon = 'fa-user-cog';
         if(jenisLower.includes('login')) ikon = 'fa-sign-in-alt';
         
+        // Ikon khusus jika itu adalah file PDF
+        if(jenisLower.includes('pdf') || item.url.toLowerCase().includes('.pdf')) {
+          ikon = 'fa-file-pdf';
+        }
+        
         btn.innerHTML = '<i class="fas ' + ikon + '"></i> <div>' + item.jenis + '</div>';
         
         btn.onclick = function() {
-          bukaIframe(item.url, namaApp + ' - ' + item.jenis);
+          let urlYangDibuka = item.url;
+          
+          // ==========================================
+          // INTEGRASI OM TORO PDF EDITOR
+          // ==========================================
+          if(item.url.toLowerCase().includes('.pdf') || jenisLower.includes('pdf')) {
+            const urlPdfEditorSaya = 'https://rbcduabelas.github.io/omtoro-pdf/';
+            urlYangDibuka = urlPdfEditorSaya + '?buka=' + encodeURIComponent(item.url);
+          }
+          
+          bukaIframe(urlYangDibuka, namaApp + ' - ' + item.jenis);
         };
         list.appendChild(btn);
       }
@@ -200,7 +214,6 @@
     }
 
     function bukaIframe(url, judulDetail) {
-      // Simpan data ke variabel global untuk fitur Share
       urlAktif = url;
       judulAktif = judulDetail;
       
@@ -219,11 +232,10 @@
       }
     }
 
-    // Fungsi Share / Bagikan Link
+    // Fungsi Share Link
     async function bagikanLink() {
       if (!urlAktif) return;
       
-      // Cek apakah HP/Browser mendukung fitur Web Share API (WhatsApp, dsb)
       if (navigator.share) {
         try {
           await navigator.share({
@@ -235,9 +247,8 @@
           console.log('Share dibatalkan atau error:', err);
         }
       } else {
-        // Fallback: Jika dibuka di PC atau browser lama, akan menyalin link ke Clipboard
         navigator.clipboard.writeText(urlAktif).then(() => {
-          alert('Link aplikasi berhasil disalin!');
+          alert('Link berhasil disalin!');
         }).catch(err => {
           alert('Gagal menyalin link.');
         });
