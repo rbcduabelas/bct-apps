@@ -49,35 +49,34 @@
       padding: 0; border-radius: 0; position: relative; background: #f4f6f9; 
     } 
     
-    /* Tombol Mengambang (Floating Dock) */
+    /* Tombol Mengambang di Kanan Atas (Ukurannya Lebih Kecil) */
     .floating-dock {
       position: absolute;
-      bottom: 30px; /* Jarak dari bawah layar */
-      left: 50%;
-      transform: translateX(-50%); /* Menempatkan persis di tengah */
+      top: 15px; /* Jarak dari atas layar */
+      right: 15px; /* Jarak dari kanan layar */
       display: flex;
-      gap: 15px;
-      background: rgba(255, 255, 255, 0.7); /* Latar transparan */
-      backdrop-filter: blur(10px); /* Efek kaca buram */
-      padding: 10px 20px;
-      border-radius: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.6); /* Lebih transparan */
+      backdrop-filter: blur(8px); /* Efek kaca buram */
+      padding: 6px 12px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
       z-index: 100;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     
-    /* Style untuk tombol ikon di dalam dock */
+    /* Style untuk tombol ikon kecil */
     .icon-btn { 
-      width: 45px; height: 45px; 
+      width: 35px; height: 35px; /* Diperkecil dari 45px ke 35px */
       display: flex; justify-content: center; align-items: center; 
-      border-radius: 50%; /* Tombol bulat */
-      font-size: 1.2rem; 
+      border-radius: 50%; 
+      font-size: 0.95rem; /* Ukuran icon diperkecil */
       color: #004b87; 
       background: #ffffff; 
       border: none; text-decoration: none; cursor: pointer; transition: 0.2s; 
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .icon-btn:hover { background: #e2e8f0; transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+    .icon-btn:hover { background: #e2e8f0; transform: translateY(-2px); }
     .close-icon { background: #ef4444; color: white; }
     .close-icon:hover { background: #dc2626; color: white; }
     
@@ -130,7 +129,6 @@
     let judulAktif = '';
 
     window.onload = function() {
-      // Menampilkan loading spinner
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
       fetch(SHEET_CSV_URL)
@@ -216,7 +214,6 @@
         if(jenisLower.includes('admin')) ikon = 'fa-user-cog';
         if(jenisLower.includes('login')) ikon = 'fa-sign-in-alt';
         
-        // Ikon khusus jika itu adalah file PDF
         if(jenisLower.includes('pdf') || item.url.toLowerCase().includes('.pdf')) {
           ikon = 'fa-file-pdf';
         }
@@ -226,9 +223,6 @@
         btn.onclick = function() {
           let urlYangDibuka = item.url;
           
-          // ==========================================
-          // INTEGRASI OM TORO PDF EDITOR
-          // ==========================================
           if(item.url.toLowerCase().includes('.pdf') || jenisLower.includes('pdf')) {
             const urlPdfEditorSaya = 'https://rbcduabelas.github.io/omtoro-pdf/';
             urlYangDibuka = urlPdfEditorSaya + '?buka=' + encodeURIComponent(item.url);
@@ -260,7 +254,6 @@
       }
     }
 
-    // Fungsi Share Link
     async function bagikanLink() {
       if (!urlAktif) return;
       
