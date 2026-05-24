@@ -6,7 +6,7 @@
   <title>BC-Team Portal</title>
   
   <meta name="theme-color" content="#004b87">
-  <link rel="manifest" href="manifest.json?v=2">
+  <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,126 +15,106 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background-color: #f4f6f9; color: #333; min-height: 100vh; overflow-x: hidden; }
     
-    /* =========================================
-       CUSTOM SPLASH SCREEN (DIKUNCI 3 DETIK)
-       ========================================= */
+    /* Tombol Instal PWA Melayang */
+    #btnInstallPWA {
+      display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: #28a745; color: #fff; padding: 12px 25px; border-radius: 30px;
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 99999; border: none; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    #btnInstallPWA:hover { background: #218838; transform: translateX(-50%) scale(1.05); }
+
+    /* Custom Splash Screen */
     #customSplash {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #ffffff; 
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffffff; 
       display: flex; flex-direction: column; justify-content: center; align-items: center;
-      z-index: 10000; 
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 10000; transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .splash-logo { height: 60px; object-fit: contain; margin-bottom: 20px; }
     .splash-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.3rem; }
     .splash-desc { color: #64748b; font-size: 1rem; font-weight: 500; letter-spacing: 0.5px; }
 
-    /* =========================================
-       HALAMAN LOGIN
-       ========================================= */
+    /* Halaman Login */
     #loginScreen {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: linear-gradient(135deg, #004b87 0%, #002b5e 100%);
-      display: flex; justify-content: center; align-items: center;
-      z-index: 9999; padding: 1.5rem;
+      display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 1.5rem;
     }
     .login-box {
-      background: #ffffff; width: 100%; max-width: 400px;
-      border-radius: 16px; padding: 2.5rem 2rem;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-      text-align: center;
+      background: #ffffff; width: 100%; max-width: 400px; border-radius: 16px; padding: 2.5rem 2rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3); text-align: center;
     }
     .login-logo { display: inline-block; margin-bottom: 1.2rem; }
     .login-logo img { height: 35px; object-fit: contain; } 
-    
     .login-box h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .teks-bc { color: #004b87; }
-    .teks-portal { color: #e0a800; } 
+    .teks-bc { color: #004b87; } .teks-portal { color: #e0a800; } 
     .login-box p { color: #64748b; font-size: 0.95rem; margin-bottom: 2rem; }
     
     .input-group { position: relative; margin-bottom: 1.5rem; }
-    .input-group i {
-      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-      color: #94a3b8; font-size: 1.1rem;
-    }
+    .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.1rem; }
     .login-input {
-      width: 100%; padding: 14px 15px 14px 45px;
-      border: 2px solid #e2e8f0; border-radius: 8px;
-      font-size: 1rem; font-family: 'Poppins', sans-serif;
-      transition: all 0.3s;
+      width: 100%; padding: 14px 15px 14px 45px; border: 2px solid #e2e8f0; border-radius: 8px;
+      font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s;
     }
     .login-input:focus { border-color: #004b87; outline: none; box-shadow: 0 0 0 3px rgba(0,75,135,0.1); }
     
     .btn-login {
-      width: 100%; padding: 14px; background: #ffc107;
-      color: #000; font-size: 1rem; font-weight: 600;
-      border: none; border-radius: 8px; cursor: pointer;
-      transition: all 0.2s; font-family: 'Poppins', sans-serif;
+      width: 100%; padding: 14px; background: #ffc107; color: #000; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-family: 'Poppins', sans-serif;
     }
     .btn-login:hover { background: #e0a800; transform: translateY(-2px); }
-    .btn-login:active { transform: translateY(0); }
     
     #pesanError { color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none; font-weight: 500;}
     #pesanLogout { color: #004b87; font-size: 0.85rem; margin-top: 1rem; display: none; font-weight: 500; background: #e0f2fe; padding: 10px; border-radius: 8px;}
 
-    /* =========================================
-       APLIKASI UTAMA
-       ========================================= */
+    /* Aplikasi Utama */
     #mainApp { display: none; }
-
-    .header { 
-      background: #004b87; 
-      padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem); 
-      display: flex; justify-content: space-between; align-items: center; 
-      gap: 15px; border-bottom: 4px solid #ffc107; 
-      position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-    }
-    .header h1 { 
-      font-size: clamp(1rem, 4.5vw, 1.5rem); color: white; font-weight: 700; 
-      letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0; white-space: nowrap; 
-    }
+    .header { background: #004b87; padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem); display: flex; justify-content: space-between; align-items: center; gap: 15px; border-bottom: 4px solid #ffc107; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .header h1 { font-size: clamp(1rem, 4.5vw, 1.5rem); color: white; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; margin: 0; white-space: nowrap; }
     .header h1 span { color: #ffc107; }
     .logo-mandiri { height: clamp(24px, 7vw, 40px); object-fit: contain; flex-shrink: 0; cursor: pointer;}
-
     .container { padding: 1.5rem; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
-    
     .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     @media (min-width: 768px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; } }
     @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
-    
     .card { background: #fff; border-radius: 12px; padding: 1.5rem 0.5rem; text-align: center; cursor: pointer; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #004b87; }
     .card:hover { transform: translateY(-3px); box-shadow: 0 8px 12px rgba(0,0,0,0.1); }
     .card i { font-size: clamp(2rem, 5vw, 2.8rem); color: #004b87; margin-bottom: 0.8rem; }
     .card h2 { font-size: clamp(0.8rem, 2vw, 1rem); font-weight: 600; line-height: 1.3; color: #334155; }
     
+    /* Modals & Iframe */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.7); z-index: 1000; justify-content: center; align-items: center; padding: 1rem; backdrop-filter: blur(4px); }
     .modal-content { background: #ffffff; padding: 2rem 1.5rem; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-    
-    .close-btn { position: absolute; top: 15px; right: 15px; background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1; border-radius: 50%; width: 32px; height: 32px; font-size: 1rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; }
+    .close-btn { position: absolute; top: 15px; right: 15px; background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1; border-radius: 50%; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; }
     .close-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
-    
     .sub-menu-btn { display: flex; align-items: center; padding: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 0.8rem; cursor: pointer; color: #334155; transition: all 0.2s; text-align: left; }
     .sub-menu-btn:hover { background: #004b87; color: white; border-color: #004b87; transform: translateX(5px); }
     .sub-menu-btn:hover i { color: #ffc107; }
-    .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; transition: all 0.2s; width: 25px; text-align: center;}
+    .sub-menu-btn i { font-size: 1.3rem; margin-right: 1rem; color: #64748b; width: 25px; text-align: center;}
     .sub-menu-btn div { font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
     
     #iframeModal { padding: 0; } 
-    #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; position: relative; background: #f4f6f9; } 
+    #iframeModal .modal-content { width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 0; border-radius: 0; position: relative; background: #f4f6f9; display: flex; flex-direction: column; } 
     
+    #iframeWarning { display: none; background: #fff3cd; color: #856404; padding: 12px; font-size: 0.85rem; text-align: center; border-bottom: 1px solid #ffeeba; }
+    #iframeWarning b { font-weight: bold; }
+
     .floating-dock { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); z-index: 100; border: 1px solid rgba(255, 255, 255, 0.3); }
     .icon-btn { width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 0.95rem; color: #004b87; background: #ffffff; border: none; text-decoration: none; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .icon-btn:hover { background: #e2e8f0; transform: translateY(-2px); }
     .close-icon { background: #ef4444; color: white; }
     .close-icon:hover { background: #dc2626; color: white; }
     
-    iframe { width: 100%; height: 100%; border: none; display: block; background: #fff;}
+    iframe { width: 100%; flex-grow: 1; border: none; display: block; background: #fff;}
     .loading-box { text-align: center; padding: 3rem; background: transparent; color: #004b87; display: flex; justify-content: center; align-items: center;}
     .mod-title { margin-top: 5px; margin-bottom: 1.5rem; color: #1e293b; font-size: 1.1rem; border-bottom: 2px solid #004b87; padding-bottom: 10px; display: inline-block;}
   </style>
 </head>
 <body>
+
+  <button id="btnInstallPWA" onclick="installPWA()"><i class="fas fa-download"></i> Instal Aplikasi</button>
 
   <div id="customSplash">
     <img src="logo-mandiri-biru.png" class="splash-logo" onerror="this.style.display='none'">
@@ -142,37 +122,28 @@
     <p class="splash-desc">Semuanya Ada Disini</p>
   </div>
 
-
   <div id="loginScreen">
     <div class="login-box">
       <div class="login-logo">
         <img src="logo-mandiri-biru.png" alt="Bank Mandiri" onerror="this.style.display='none'">
       </div>
-      
       <h2><span class="teks-bc">BC-Team</span> <span class="teks-portal">Portal</span></h2>
       <p>Semuanya Ada Disini</p>
-      
       <div id="pesanLogout"><i class="fas fa-info-circle"></i> Sesi habis karena tidak ada aktivitas (3 Menit).</div>
-      
       <div class="input-group">
         <i class="fas fa-lock"></i>
         <input type="password" id="inputPassword" class="login-input" placeholder="Masukkan Password" onkeypress="cekEnter(event)">
       </div>
-      
       <button class="btn-login" onclick="prosesLogin()">Masuk Portal <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></button>
-      
       <div id="pesanError"><i class="fas fa-exclamation-circle"></i> Password salah! Silakan coba lagi.</div>
     </div>
   </div>
 
-
   <div id="mainApp">
-    
     <div class="header">
       <h1 onclick="tampilKategori()">BC-Team <span>Portal</span></h1>
       <img src="logo-mandiri-putih.png" alt="Bank Mandiri" class="logo-mandiri" onclick="konfirmasiLogout()" title="Klik 2x untuk Logout" onerror="this.style.display='none'">
     </div>
-
     <div class="container">
       <div id="mainGrid" class="grid"></div>
     </div>
@@ -187,6 +158,9 @@
 
     <div id="iframeModal" class="modal">
       <div class="modal-content">
+        <div id="iframeWarning">
+          <i class="fas fa-info-circle"></i> Jika tampilan error/kosong, silakan klik tombol <b>Buka di Tab Baru</b> (di pojok kanan atas).
+        </div>
         <iframe id="contentFrame" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
         <div class="floating-dock">
           <button class="icon-btn" onclick="bagikanLink()" title="Bagikan (Share)"><i class="fas fa-share-nodes"></i></button>
@@ -195,10 +169,41 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <script>
+    // ========================================================
+    // LOGIKA INSTALASI PWA (MEMAKSA CHROME MUNCULKAN PROMPT)
+    // ========================================================
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Mencegah Chrome memunculkan mini-infobar yang sering gagal
+      e.preventDefault();
+      deferredPrompt = e;
+      // Memunculkan tombol instal manual milik kita
+      document.getElementById('btnInstallPWA').style.display = 'block';
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('PWA berhasil diinstal');
+          }
+          deferredPrompt = null;
+          document.getElementById('btnInstallPWA').style.display = 'none';
+        });
+      }
+    }
+
+    // REGISTRASI PWA MURNI (TANPA QUERY STRING)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Gagal', err));
+      });
+    }
+
     // ========================================================
     // KONFIGURASI PASSWORD & DATABASE
     // ========================================================
@@ -211,7 +216,6 @@
     let timerMatiGaya; 
 
     window.onload = function() {
-      // 1. KUNCI SPLASH SCREEN MINIMAL 3 DETIK (3000ms)
       setTimeout(() => {
         const splash = document.getElementById('customSplash');
         splash.style.opacity = '0';
@@ -219,14 +223,11 @@
         setTimeout(() => { splash.style.display = 'none'; }, 500); 
       }, 3000);
 
-      // 2. Cek status otentikasi login
       const statusLogin = localStorage.getItem("bct_auth_status");
       const paramURL = new URLSearchParams(window.location.search);
-      
       if(paramURL.get('timeout') === 'true') {
         document.getElementById('pesanLogout').style.display = "block";
       }
-      
       if (statusLogin === "sudah_login") {
         bukaPortal();
       } else {
@@ -234,9 +235,7 @@
       }
     };
 
-    function cekEnter(event) {
-      if (event.key === "Enter") prosesLogin();
-    }
+    function cekEnter(event) { if (event.key === "Enter") prosesLogin(); }
 
     function prosesLogin() {
       const inputan = document.getElementById('inputPassword').value;
@@ -255,15 +254,13 @@
       }
     }
 
-    // FITUR AUTO LOGOUT (3 MENIT TANPA AKTIVITAS)
     function resetTimerIdle() {
       clearTimeout(timerMatiGaya);
       timerMatiGaya = setTimeout(keluarOtomatis, 180000); 
     }
 
     function keluarOtomatis() {
-      const statusLogin = localStorage.getItem("bct_auth_status");
-      if (statusLogin === "sudah_login") {
+      if (localStorage.getItem("bct_auth_status") === "sudah_login") {
         localStorage.removeItem("bct_auth_status");
         window.location.href = window.location.pathname + "?timeout=true";
       }
@@ -281,24 +278,17 @@
     function bukaPortal() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
-      
       pasangSensorAktivitas();
-      
       document.getElementById('mainGrid').innerHTML = '<div class="loading-box" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
 
       fetch(SHEET_CSV_URL)
         .then(response => response.text())
         .then(csvText => {
           prosesDataCSV(csvText);
-          if(allData.length === 0) {
-            tampilkanError('Data Kosong', 'Belum ada aplikasi yang terdaftar di Google Sheets.');
-          } else {
-            tampilKategori(); 
-          }
-        })
-        .catch(err => {
+          if(allData.length === 0) tampilkanError('Data Kosong', 'Belum ada aplikasi yang terdaftar di Google Sheets.');
+          else tampilKategori(); 
+        }).catch(err => {
           tampilkanError('Koneksi Terputus', 'Gagal memuat CSV. Pastikan Google Sheet sudah di-Publish ke Web.');
-          console.error(err);
         });
     }
 
@@ -322,11 +312,7 @@
         if (!baris[i].trim()) continue; 
         const kolom = baris[i].split(',');
         if (kolom.length >= 3) {
-          allData.push({
-            nama: kolom[0].replace(/['"]/g, '').trim(),
-            jenis: kolom[1].replace(/['"]/g, '').trim(),
-            url: kolom.slice(2).join(',').replace(/['"]/g, '').trim()
-          });
+          allData.push({ nama: kolom[0].replace(/['"]/g, '').trim(), jenis: kolom[1].replace(/['"]/g, '').trim(), url: kolom.slice(2).join(',').replace(/['"]/g, '').trim() });
         }
       }
     }
@@ -340,9 +326,7 @@
       grid.innerHTML = '';
       const daftarAplikasi = [];
       for(let i = 0; i < allData.length; i++) {
-        if(daftarAplikasi.indexOf(allData[i].nama) === -1 && allData[i].nama !== '') { 
-          daftarAplikasi.push(allData[i].nama); 
-        }
+        if(daftarAplikasi.indexOf(allData[i].nama) === -1 && allData[i].nama !== '') daftarAplikasi.push(allData[i].nama); 
       }
       const iconList = ['fa-cubes', 'fa-laptop-code', 'fa-server', 'fa-network-wired', 'fa-mobile-alt'];
       for(let j = 0; j < daftarAplikasi.length; j++) {
@@ -371,28 +355,20 @@
         if(jenisLower.includes('utama')) ikon = 'fa-desktop';
         if(jenisLower.includes('admin')) ikon = 'fa-user-cog';
         if(jenisLower.includes('login')) ikon = 'fa-sign-in-alt';
-        if(jenisLower.includes('pdf') || item.url.toLowerCase().includes('.pdf')) {
-          ikon = 'fa-file-pdf';
-        }
+        if(jenisLower.includes('pdf') || item.url.toLowerCase().includes('.pdf')) ikon = 'fa-file-pdf';
         
         btn.innerHTML = '<i class="fas ' + ikon + '"></i> <div>' + item.jenis + '</div>';
         
-        // ==========================================
-        // UPDATE: Penanganan Khusus Link Google Drive
-        // ==========================================
         btn.onclick = function() {
           let urlYangDibuka = item.url;
-          
           if(item.url.toLowerCase().includes('.pdf') || jenisLower.includes('pdf')) {
             const urlPdfEditorSaya = 'https://rbcduabelas.github.io/omtoro-pdf/';
             urlYangDibuka = urlPdfEditorSaya + '?buka=' + encodeURIComponent(item.url);
           } 
           else if (item.url.includes('drive.google.com')) {
-            // Mengekstrak ID dari link Google Drive biasa dan mengubahnya menjadi format /preview
             const match = item.url.match(/[-\w]{25,}/);
             if(match) urlYangDibuka = 'https://drive.google.com/file/d/' + match[0] + '/preview';
           }
-          
           bukaIframe(urlYangDibuka, namaApp + ' - ' + item.jenis);
         };
         list.appendChild(btn);
@@ -405,6 +381,14 @@
       judulAktif = judulDetail;
       document.getElementById('btnNewTab').href = url;
       document.getElementById('contentFrame').src = url;
+      
+      // Munculkan Peringatan Tab Baru jika yang dibuka adalah aplikasi Google
+      if (url.includes('google.com')) {
+        document.getElementById('iframeWarning').style.display = 'block';
+      } else {
+        document.getElementById('iframeWarning').style.display = 'none';
+      }
+
       document.getElementById('iframeModal').style.display = 'flex';
     }
 
@@ -413,6 +397,7 @@
       if(id === 'iframeModal') { 
         document.getElementById('contentFrame').src = ''; 
         document.getElementById('btnNewTab').href = '#';
+        document.getElementById('iframeWarning').style.display = 'none';
         urlAktif = '';
         judulAktif = '';
       }
@@ -427,13 +412,6 @@
         navigator.clipboard.writeText(urlAktif).then(() => { alert('Link berhasil disalin!');
         }).catch(err => { alert('Gagal menyalin link.'); });
       }
-    }
-
-    // REGISTRASI PWA DENGAN VERSI BARU (?v=2)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=2').catch(err => console.log('PWA gagal.', err));
-      });
     }
   </script>
 </body>
