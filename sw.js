@@ -1,4 +1,5 @@
-const CACHE_NAME = 'bct-portal-v6.0';
+// UBAH NAMA CACHE MENJADI VERSI BARU (Misal: v2.0)
+const CACHE_NAME = 'bct-portal-v5.0'; 
 const urlsToCache = [
   './',
   './index.html',
@@ -16,6 +17,25 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  // Memaksa service worker baru langsung aktif
+  self.skipWaiting(); 
+});
+
+self.addEventListener('activate', event => {
+  const cacheAllowlist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheAllowlist.indexOf(cacheName) === -1) {
+            // Menghapus cache versi lama secara otomatis
+            return caches.delete(cacheName); 
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
